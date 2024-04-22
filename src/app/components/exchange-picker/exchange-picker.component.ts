@@ -10,6 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { Currency } from '../../Currency';
 import { ExchangeServiceComponent } from '../../exchange-service/exchange-service.service';
 
+interface CurrencyChangeHandler {
+  (currency: Currency): void;
+}
+
 @Component({
   selector: 'app-exchange-picker',
   standalone: true,
@@ -18,26 +22,45 @@ import { ExchangeServiceComponent } from '../../exchange-service/exchange-servic
   imports: [CommonModule, FormsModule],
 })
 export class ExchangePickerComponent implements OnInit {
+  // Indicates whether the component is in edit mode
   public edited = true;
-  @Input() changeCurrency: any;
-  @Input() selectorId: any;
 
-  currencies: any;
+  // List of currencies
+  exchangeList!: Currency[];
+  // Currently selected currency
+  selectedCurrency!: Currency;
+  elementCurrenciesList: any;
+  // Text used to filter currencies
+  findCurrency!: string;
+  ignoreFocusOut = false;
 
-  public selectedCurrency: any;
-  public elementCurrenciesList: any;
-  public findCurrency: any;
-  public ignoreFocusOut = false;
-  public noResultsFind = false;
+  noResultsFind = false;
+
+  @Input() onChangeCurrency!: CurrencyChangeHandler;
+  // Identifier used to differentiate instances of the component
+  @Input() selectorIdentifier!: string;
+
+  // Reference to the search input element in the template
   @ViewChild('search_input', { static: false }) search_input: any;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    public service: ExchangeServiceComponent
+    public exchangeService: ExchangeServiceComponent
   ) {}
 
+  ngOnInit(): void {
+    // Initialize the component
+    this.loadCurrencies();
+  }
+
+  loadCurrencies(): void {
+    this.exchangeList = this.exchangeService.getCurrencies();
+    this.selectedCurrency = this.exchangeService.getCurrencies()[0];
+    this.onChangeCurrency(this.exchangeService.getCurrencies()[0]);
+  }
+
   public valueFinding() {
-    this.currencies = this.service
+    this.exchangeList = this.exchangeService
       .getCurrencies()
       .filter(
         (item) =>
@@ -45,73 +68,68 @@ export class ExchangePickerComponent implements OnInit {
           item.full_name.toLowerCase().includes(this.findCurrency.toLowerCase())
       );
 
-    this.noResultsFind = this.currencies.length == 0;
+    this.noResultsFind = this.exchangeList.length == 0;
   }
 
+  // Function to handle currency selection
   selectCurrency = (currency: Currency): void => {
     this.selectedCurrency = currency;
-    this.changeCurrency(currency);
-    this.HideDropdown();
+    this.onChangeCurrency(currency);
+    this.hideDropdown();
 
-    localStorage.setItem(this.selectorId, currency.name);
+    localStorage.setItem(this.selectorIdentifier, currency.name);
   };
 
-  ShowDropdown() {
-    console.log('showDropdown');
+  // Show the dropdown menu
+  showDropdown() {
     this.edited = false;
     this.elementCurrenciesList.className = 'dropdown-menu scrollable-menu show';
   }
 
-  HideDropdown() {
-    console.log('hideDropdown');
+  // Hide the dropdown menu
+  hideDropdown() {
     this.edited = true;
     this.elementCurrenciesList.className = 'dropdown-menu scrollable-menu';
   }
 
+  // Handle click event on the dropdown button
   dropClick() {
     this.findCurrency = '';
-    this.ShowDropdown();
+    this.showDropdown();
     this.changeDetector.detectChanges();
     this.search_input.nativeElement.focus();
     this.valueFinding();
   }
 
+  // Handle focus out event on the search input
   focusOutInput() {
-    if (!this.ignoreFocusOut) this.HideDropdown();
+    if (!this.ignoreFocusOut) this.hideDropdown();
   }
 
+  // Select the currency on component initialization
   private selectCurrencyOnStart() {
-    let data: any;
-    let localData = localStorage.getItem(this.selectorId);
-    if (localData)
-      data = this.service
-        .getCurrencies()
-        .find((element) => element.name == localData);
-    if (!data)
-      data = this.service
-        .getCurrencies()
-        .find(
-          (element) =>
-            element.name == (this.selectorId == 'from' ? 'EUR' : 'USD')
-        );
-    if (data) this.selectCurrency(data);
+    const localData = localStorage.getItem(this.selectorIdentifier);
+    const defaultCurrencyName =
+      this.selectorIdentifier === 'source' ? 'EUR' : 'USD';
+    const currencies = this.exchangeService.getCurrencies();
+    const data = localData
+      ? currencies.find((element) => element.name === localData)
+      : currencies.find((element) => element.name === defaultCurrencyName);
+
+    if (data) {
+      this.selectCurrency(data);
+    }
   }
 
   ngAfterViewInit(): void {
+    // After the view is initialized, retrieve the reference to the currencies list element
     this.elementCurrenciesList = document.getElementById(
-      'currenciesList ' + this.selectorId
+      'currenciesList ' + this.selectorIdentifier
     );
     this.selectCurrencyOnStart();
   }
 
-  public selectCurrencyFunc(currency: any) {
+  public selectCurrencyFunc(currency: Currency) {
     this.selectCurrency(currency);
-  }
-
-  ngOnInit(): void {
-    this.currencies = this.service.getCurrencies();
-
-    this.selectedCurrency = this.service.getCurrencies()[0];
-    this.changeCurrency(this.service.getCurrencies()[0]);
   }
 }

@@ -7,13 +7,13 @@
     </button>
 
     <div class="input-search" *ngIf="!edited">
-      <input (click)='ShowDropdown()' placeholder="Type to search..." (keyup.escape)="HideDropdown()" (focusout)="focusOutInput()" [ngModelOptions]="{standalone: true}" [(ngModel)]="findCurrency" (ngModelChange)="valueFinding()" type="text" autofocus #search_input>
-      <a id="clear" href="#" (click)='HideDropdown()' class="bi bi-x-lg"></a>
+      <input (click)='showDropdown()' placeholder="Type to search..." (keyup.escape)="hideDropdown()" (focusout)="focusOutInput()" [ngModelOptions]="{standalone: true}" [(ngModel)]="findCurrency" (ngModelChange)="valueFinding()" type="text" autofocus #search_input>
+      <a id="clear" href="#" (click)='hideDropdown()' class="bi bi-x-lg"></a>
     </div>
   </div>
 
-  <ul [id]="'currenciesList ' + selectorId" (mouseover)="ignoreFocusOut=currencies.length>0" (mouseout)="ignoreFocusOut=false" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="dropdownMenuButton">
-    <li *ngFor="let currency of currencies">
+  <ul [id]="'currenciesList ' + selectorIdentifier" (mouseover)="ignoreFocusOut=exchangeList.length>0" (mouseout)="ignoreFocusOut=false" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="dropdownMenuButton">
+    <li *ngFor="let currency of exchangeList">
     
       <a (click)="selectCurrencyFunc(currency)" class="dropdown-item"  href="#">
         <div class="currency-flag currency-flag-{{currency.name.toLowerCase()}}"></div>

@@ -81,9 +81,8 @@ export class ExchangeServiceComponent {
 
       return currencies;
     } catch (error) {
-      // Handle errors appropriately, e.g., log, throw, or provide a default response
       console.error('Error fetching currencies:', error);
-      return []; // Or throw an error if a default response is not suitable
+      return [];
     }
   }
 }

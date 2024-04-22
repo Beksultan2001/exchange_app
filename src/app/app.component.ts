@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
 
   @ViewChild('source') sourceCurrencyComponent!: ExchangePickerComponent;
   @ViewChild('target') targetCurrencyComponent!: ExchangePickerComponent;
-  @ViewChild('submitBtn', { static: false })
   submitButton!: ElementRef<HTMLDivElement>;
   @ViewChild('formExchange', { static: false })
   formExchangeContainer!: ElementRef<HTMLDivElement>;
@@ -41,28 +40,28 @@ export class AppComponent implements OnInit {
 
   public selectSourceCurrency = (currency: Currency): void => {
     this._sourceCurrency = currency;
-    if (this.isResult) this.exchange();
+    if (this.isResult) this.observer();
   };
 
   public selectTargetCurrency = (currency: Currency): void => {
     this._targetCurrency = currency;
-    if (this.isResult) this.exchange();
+    if (this.isResult) this.observer();
   };
 
   changeAmountValue(): void {
     this.amountValue = +(Math.round(this.amountValue * 100) / 100).toFixed(2);
     localStorage.setItem('amount', this.amountValue.toString());
-    if (this.isResult) this.exchange();
+    if (this.isResult) this.observer();
   }
 
   public switchCurrencies(): void {
     const temp: Currency = this._sourceCurrency;
     this.sourceCurrencyComponent.selectCurrency(this._targetCurrency);
     this.targetCurrencyComponent.selectCurrency(temp);
-    if (this.isResult) this.exchange();
+    if (this.isResult) this.observer();
   }
 
-  public exchange(): void {
+  public observer(): void {
     const rateBase = this._targetCurrency.rate / this._sourceCurrency.rate;
     const result = this.amountValue * rateBase;
     this.resultTo =
@@ -73,8 +72,8 @@ export class AppComponent implements OnInit {
         : this._targetCurrency.name);
   }
 
-  onSubmit(): void {
-    this.exchange();
+  convertExchange(): void {
+    this.observer();
     this.isResult = true;
   }
 
@@ -94,7 +93,7 @@ export class AppComponent implements OnInit {
     this.amountValue = localAmount ? parseFloat(localAmount) : 1;
   }
 
-  windowResize(): void {
+  cardResize(): void {
     this.submitButton.nativeElement.style.width =
       this.formExchangeContainer.nativeElement.style.width;
   }

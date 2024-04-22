@@ -2,30 +2,30 @@
   <section class="app__content card">
     <h1 class="app__content__title">Currency Converter</h1>
     <div *ngIf="isDataAvailable">
-      <form name="form-exchange" (ngSubmit)="onSubmit()">
-        <div class="form-currency" #formExchange (window:resize)="windowResize()">
+      <form name="form-exchange" (ngSubmit)="convertExchange()">
+        <div class="form-currency" #formExchange (window:resize)="cardResize()">
           <div class="currency-options">
             <div class="currency-option">
-              <label class="currency-option__label">From</label>
-              <app-exchange-picker #source [selectorId]="'source'" [changeCurrency]="selectSourceCurrency" class="currency-option__picker"></app-exchange-picker>
+              <label class="currency-option__label">Source</label>
+              <app-exchange-picker #source [selectorIdentifier]="'source'" [onChangeCurrency]="selectSourceCurrency" class="currency-option__picker"></app-exchange-picker>
             </div>
             <button class="switch-btn" type="button" (click)="switchCurrencies()">
               <i class="switch-btn__icon bi bi-arrow-left-right"></i>
             </button>
             <div class="currency-option">
-              <label class="currency-option__label">To</label>
-              <app-exchange-picker #target [selectorId]="'target'" [changeCurrency]="selectTargetCurrency" class="currency-option__picker"></app-exchange-picker>
+              <label class="currency-option__label">Target</label>
+              <app-exchange-picker #target [selectorIdentifier]="'target'" [onChangeCurrency]="selectTargetCurrency" class="currency-option__picker"></app-exchange-picker>
             </div>
           </div>
           <div class="amount-input">
             <label class="amount-input__label">Amount</label>
             <div class="input-amount input-field">
               <span class="input-amount__prefix">{{ sourceCurrencySymbol }}</span>
-              <input required lang="en-US" type="number" [(ngModel)]="amountValue" (change)="changeAmountValue()" name="amount" (focusout)="changeAmountValue()" #amount_input placeholder="Amount" step="0.01" class="input-amount__input">
+              <input required lang="en-US" type="number" [(ngModel)]="amountValue" (change)="changeAmountValue()" (keyup)="isResult=false" name="amount" (focusout)="changeAmountValue()" #amount_input placeholder="Amount" step="0.01" class="input-amount__input">
             </div>
           </div>
         </div>
-        <div class="submit-btn" [style.width.px]="formExchange.offsetWidth" #submitBtn *ngIf="!isResult">
+        <div class="convert-btn" [style.width.px]="formExchange.offsetWidth" *ngIf="!isResult">
           <button type="submit">Convert</button>
         </div>
       </form>
