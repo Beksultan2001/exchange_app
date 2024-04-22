@@ -1,0 +1,47 @@
+<main class="app_wrapper">
+  <section class="app__content card">
+    <h1 class="app__content__title">Currency Converter</h1>
+    <div *ngIf="isDataAvailable">
+      <form name="form-exchange" (ngSubmit)="onSubmit()">
+        <div class="form-currency" #formExchange (window:resize)="windowResize()">
+          <div class="currency-options">
+            <div class="currency-option">
+              <label class="currency-option__label">From</label>
+              <app-exchange-picker #source [selectorId]="'source'" [changeCurrency]="selectSourceCurrency" class="currency-option__picker"></app-exchange-picker>
+            </div>
+            <button class="switch-btn" type="button" (click)="switchCurrencies()">
+              <i class="switch-btn__icon bi bi-arrow-left-right"></i>
+            </button>
+            <div class="currency-option">
+              <label class="currency-option__label">To</label>
+              <app-exchange-picker #target [selectorId]="'target'" [changeCurrency]="selectTargetCurrency" class="currency-option__picker"></app-exchange-picker>
+            </div>
+          </div>
+          <div class="amount-input">
+            <label class="amount-input__label">Amount</label>
+            <div class="input-amount input-field">
+              <span class="input-amount__prefix">{{ sourceCurrencySymbol }}</span>
+              <input required lang="en-US" type="number" [(ngModel)]="amountValue" (change)="changeAmountValue()" name="amount" (focusout)="changeAmountValue()" #amount_input placeholder="Amount" step="0.01" class="input-amount__input">
+            </div>
+          </div>
+        </div>
+        <div class="submit-btn" [style.width.px]="formExchange.offsetWidth" #submitBtn *ngIf="!isResult">
+          <button type="submit">Convert</button>
+        </div>
+      </form>
+      <div class="result-currency" *ngIf="isResult">
+        <div class="result-to">{{ resultTo }}</div>
+      </div>
+    </div>
+    <div class="lds-ellipsis" *ngIf="!isDataAvailable && !failedToLoad">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div *ngIf="failedToLoad" [style.text-align]="'center'">
+      <h2><i class="bi bi-bug-fill"></i></h2>
+      <h3>Failed to load exchange rate from the server</h3>
+    </div>
+  </section>
+</main>
