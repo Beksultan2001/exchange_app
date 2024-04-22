@@ -18,7 +18,6 @@ $brown: #3a3636;
   height: 100%;
   width: 100%;
   min-height: 570px;
-  max-width: none;
 
   @include extra-small {
     background-color: $dirty-white;
@@ -43,6 +42,12 @@ $brown: #3a3636;
   box-shadow: 0 10px 20px 0 #b3bbc673;
   border-radius: 15px;
   border: none;
+
+  > div {
+    @include medium-down {
+      max-width: 350px;
+    }
+  }
 
   h1 {
     font-weight: 800;
@@ -69,6 +74,7 @@ $brown: #3a3636;
     align-self: end;
 
     @include medium-down {
+      background: transparent;
       align-self: center;
     }
 
@@ -197,4 +203,8 @@ $brown: #3a3636;
     align-items: center;
     justify-content: space-between;
   }
+}
+
+.result-currency {
+  margin-top: 1rem;
 }

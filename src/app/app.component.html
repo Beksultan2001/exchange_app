@@ -21,7 +21,7 @@
             <label class="amount-input__label">Amount</label>
             <div class="input-amount input-field">
               <span class="input-amount__prefix">{{ sourceCurrencySymbol }}</span>
-              <input required lang="en-US" type="number" [(ngModel)]="amountValue" (change)="changeAmountValue()" (keyup)="isResult=false" name="amount" (focusout)="changeAmountValue()" #amount_input placeholder="Amount" step="0.01" class="input-amount__input">
+              <input required lang="en-US" type="number" [(ngModel)]="amountValue" (change)="changeAmountValue()"  name="amount" (focusout)="changeAmountValue()" #amount_input placeholder="Amount" step="0.01" class="input-amount__input">
             </div>
           </div>
         </div>

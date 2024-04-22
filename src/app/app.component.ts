@@ -15,21 +15,20 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'currency-exchange';
+  title = 'exchange-app';
   public isDataAvailable = false;
   public failedToLoad = false;
   private _sourceCurrency!: Currency;
   private _targetCurrency!: Currency;
   public amountValue: number = 1;
-
   public resultFrom: Currency | undefined;
   public resultTo: string | undefined;
   public isResult = false;
 
   @ViewChild('source') sourceCurrencyComponent!: ExchangePickerComponent;
   @ViewChild('target') targetCurrencyComponent!: ExchangePickerComponent;
-  submitButton!: ElementRef<HTMLDivElement>;
   @ViewChild('formExchange', { static: false })
+  submitButton!: ElementRef<HTMLDivElement>;
   formExchangeContainer!: ElementRef<HTMLDivElement>;
 
   constructor(public service: ExchangeServiceComponent) {}

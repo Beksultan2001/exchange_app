@@ -30,7 +30,6 @@ export class ExchangePickerComponent implements OnInit {
   // Currently selected currency
   selectedCurrency!: Currency;
   elementCurrenciesList: any;
-  // Text used to filter currencies
   findCurrency!: string;
   ignoreFocusOut = false;
 
@@ -49,7 +48,7 @@ export class ExchangePickerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Initialize the component
+    // Initialize the components
     this.loadCurrencies();
   }
 
