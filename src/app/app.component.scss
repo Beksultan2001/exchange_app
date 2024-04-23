@@ -63,7 +63,7 @@ $brown: #3a3636;
     }
   }
 
-  .switch-btn {
+  .swap-btn {
     height: 50px;
     width: 50px;
     text-align: center;
@@ -77,6 +77,7 @@ $brown: #3a3636;
     @include medium-down {
       background: transparent;
       align-self: center;
+      transform: rotate(90deg);
     }
 
     &:active {
@@ -186,6 +187,9 @@ $brown: #3a3636;
 }
 
 .currency-option {
+  &__label{
+    margin-bottom: 0.5rem;
+  }
   @include medium-down {
     display: flex;
     align-items: center;
@@ -195,7 +199,9 @@ $brown: #3a3636;
 
 .amount-input {
   margin-left: 1rem;
-
+  &__label{
+    margin-bottom: 0.5rem;
+  }
   @include medium-down {
     margin-top: 2rem;
     margin-left: 0;

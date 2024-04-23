@@ -22,9 +22,6 @@ interface CurrencyChangeHandler {
   imports: [CommonModule, FormsModule],
 })
 export class ExchangePickerComponent implements OnInit {
-  // Indicates whether the component is in edit mode
-  edited = true;
-
   // List of currencies
   exchangeList!: Currency[];
   // Currently selected currency
@@ -32,7 +29,7 @@ export class ExchangePickerComponent implements OnInit {
   elementCurrenciesList: any;
   findCurrency!: string;
   ignoreFocusOut = false;
-
+  isItEdited = true;
   noResultsFind = false;
 
   @Input() onChangeCurrency!: CurrencyChangeHandler;
@@ -58,7 +55,7 @@ export class ExchangePickerComponent implements OnInit {
     this.onChangeCurrency(this.exchangeService.getCurrencies()[0]);
   }
 
-  public valueFinding() {
+  valueFinding() {
     this.exchangeList = this.exchangeService
       .getCurrencies()
       .filter(
@@ -81,13 +78,13 @@ export class ExchangePickerComponent implements OnInit {
 
   // Show the dropdown menu
   showDropdown() {
-    this.edited = false;
+    this.isItEdited = false;
     this.elementCurrenciesList.className = 'dropdown-menu scrollable-menu show';
   }
 
   // Hide the dropdown menu
   hideDropdown() {
-    this.edited = true;
+    this.isItEdited = true;
     this.elementCurrenciesList.className = 'dropdown-menu scrollable-menu';
   }
 
@@ -128,7 +125,7 @@ export class ExchangePickerComponent implements OnInit {
     this.selectCurrencyOnStart();
   }
 
-  public selectCurrencyFunc(currency: Currency) {
+  selectCurrencyFunc(currency: Currency) {
     this.selectCurrency(currency);
   }
 }

@@ -1,12 +1,12 @@
 <div class="dropdown">
   <div data-bs-toggle="dropdown" aria-expanded="false">
-    <button *ngIf="edited" class="btn" (click)="dropClick()" type="button">
+    <button *ngIf="isItEdited" class="btn" (click)="dropClick()" type="button">
       <div class="currency-flag currency-flag-{{selectedCurrency.name.toLowerCase()}}"></div>
       <div class="currency-name">{{selectedCurrency.name}}{{selectedCurrency.full_name ? ' - '+selectedCurrency.full_name : '' }}</div>
       <i class="toggle bi bi-chevron-down"></i>
     </button>
 
-    <div class="input-search" *ngIf="!edited">
+    <div class="input-search" *ngIf="!isItEdited">
       <input (click)='showDropdown()' placeholder="Type to search..." (keyup.escape)="hideDropdown()" (focusout)="focusOutInput()" [ngModelOptions]="{standalone: true}" [(ngModel)]="findCurrency" (ngModelChange)="valueFinding()" type="text" autofocus #search_input>
       <a id="clear" href="#" (click)='hideDropdown()' class="bi bi-x-lg"></a>
     </div>

@@ -9,8 +9,8 @@
               <label class="currency-option__label">Source</label>
               <app-exchange-picker #source [selectorIdentifier]="'source'" [onChangeCurrency]="selectSourceCurrency" class="currency-option__picker"></app-exchange-picker>
             </div>
-            <button class="switch-btn" type="button" (click)="switchCurrencies()">
-              <i class="switch-btn__icon bi bi-arrow-left-right"></i>
+            <button class="swap-btn" type="button" (click)="switchCurrencies()">
+              <i class="swap-btn__icon bi bi-arrow-left-right"></i>
             </button>
             <div class="currency-option">
               <label class="currency-option__label">Target</label>
