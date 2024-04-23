@@ -26,7 +26,7 @@ export class ExchangeServiceComponent {
 
   constructor(private http: HttpClient) {}
 
-  public getCurrencies() {
+  getCurrencies() {
     return this.currencies;
   }
 

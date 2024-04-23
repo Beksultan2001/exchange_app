@@ -25,12 +25,12 @@
             </div>
           </div>
         </div>
-        <div class="convert-btn" [style.width.px]="formExchange.offsetWidth" *ngIf="!isResult">
+        <div class="convert-btn" [style.width.px]="formExchange.offsetWidth" *ngIf="!isResultAvailable">
           <button type="submit">Convert</button>
         </div>
       </form>
-      <div class="result-currency" *ngIf="isResult">
-        <div class="result-to">{{ resultTo }}</div>
+      <div class="result-currency" *ngIf="isResultAvailable">
+        <div class="result-to"><strong>Sum: </strong> {{ converted }}</div>
       </div>
     </div>
     <div class="lds-ellipsis" *ngIf="!isDataAvailable && !failedToLoad">

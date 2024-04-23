@@ -23,7 +23,7 @@ interface CurrencyChangeHandler {
 })
 export class ExchangePickerComponent implements OnInit {
   // Indicates whether the component is in edit mode
-  public edited = true;
+  edited = true;
 
   // List of currencies
   exchangeList!: Currency[];
