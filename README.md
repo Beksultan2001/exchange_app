@@ -15,3 +15,5 @@ Run `ng generate component component-name` to generate a new component. You can 
 <img src="/screen_web.png" alt="Exchange"/>
 
 <img src="/screen_mobile.png" alt="Exchange"/>
+
+<img src="/screen_result.png" alt="Exchange"/>
